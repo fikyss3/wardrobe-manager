@@ -70,4 +70,36 @@ public class ClothingService {
     public Map<String, Long> getStats(String type) {
         return analysisContext.execute(type, repository.findAll());
     }
+    // Метод для удаления вещи
+    public void deleteById(Long id) {
+        ClothingItem item = repository.findById(id)
+                .orElseThrow(() -> new ClothingNotFoundException(id));
+
+        // Удаляем файл с диска
+        if (item.getImageUrl() != null) {
+            try {
+                String filename = item.getImageUrl().substring(item.getImageUrl().lastIndexOf("/") + 1);
+                Path filePath = Paths.get(uploadDir).toAbsolutePath().normalize().resolve(filename);
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                // Логируем ошибку, но не прерываем удаление записи из БД
+                System.err.println("Ошибка при удалении файла: " + e.getMessage());
+            }
+        }
+
+        repository.delete(item);
+    }
+
+    // Метод для обновления вещи
+    public ClothingItem update(Long id, String name, String description, String category, String dressCode) {
+        ClothingItem item = repository.findById(id)
+                .orElseThrow(() -> new ClothingNotFoundException(id));
+
+        item.setName(name);
+        item.setDescription(description);
+        item.setCategory(Category.valueOf(category.toUpperCase()));
+        item.setDressCode(DressCode.valueOf(dressCode.toUpperCase()));
+
+        return repository.save(item);
+    }
 }

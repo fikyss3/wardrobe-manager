@@ -29,10 +29,10 @@ public class ClothingController {
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<ClothingItem> create(
-            @RequestPart("name") String name,
-            @RequestPart(value = "description", required = false) String description,
-            @RequestPart("category") String category,
-            @RequestPart("dressCode") String dressCode,
+            @RequestParam("name") String name,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam("category") String category,
+            @RequestParam("dressCode") String dressCode,
             @RequestPart("file") MultipartFile file) {
         return ResponseEntity.ok(service.save(name, description, category, dressCode, file));
     }
@@ -40,5 +40,22 @@ public class ClothingController {
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Long>> getStats(@RequestParam String type) {
         return ResponseEntity.ok(service.getStats(type));
+    }
+    // Эндпоинт для удаления
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Эндпоинт для обновления
+    @PutMapping("/{id}")
+    public ResponseEntity<ClothingItem> update(
+            @PathVariable Long id,
+            @RequestParam String name,
+            @RequestParam(required = false) String description,
+            @RequestParam String category,
+            @RequestParam String dressCode) {
+        return ResponseEntity.ok(service.update(id, name, description, category, dressCode));
     }
 }
