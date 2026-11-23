@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+//Контроллер для отдачи изображений
+
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
 public class ImageController {

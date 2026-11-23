@@ -24,10 +24,9 @@ public class ClothingItem {
 
     private String imageUrl;
 
-    // Пустой конструктор (обязателен для работы Hibernate/JPA)
-    public ClothingItem() {}
+    public ClothingItem() {
 
-    // --- Геттеры и Сеттеры ---
+    }
 
     public Long getId() {
         return id;

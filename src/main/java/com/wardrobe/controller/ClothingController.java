@@ -41,14 +41,14 @@ public class ClothingController {
     public ResponseEntity<Map<String, Long>> getStats(@RequestParam String type) {
         return ResponseEntity.ok(service.getStats(type));
     }
-    // Эндпоинт для удаления
+    // для удаления
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    // Эндпоинт для обновления
+    // для обновления
     @PutMapping("/{id}")
     public ResponseEntity<ClothingItem> update(
             @PathVariable Long id,
